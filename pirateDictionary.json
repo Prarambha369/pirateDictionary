@@ -1,5 +1,3 @@
-//const pirateDictionary =
-
 {
   "hello": "ahoy",
   "end": "avast",
@@ -259,6 +257,6 @@
   "below": "under",
   "inside": "within",
   "outside": "without",
- "year":"yoar",
+  "year":"yoar",
   "month":"moor"
 }
