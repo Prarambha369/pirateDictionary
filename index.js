@@ -1,5 +1,5 @@
 (() => {
-  fetch('pirateDictionary.json')
+  fetch('https://raw.githubusercontent.com/Prarambha369/pirateDictionary/refs/heads/main/pirateDictionary.json')
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Failed to load pirate dictionary: ${response.statusText}`);
@@ -21,7 +21,6 @@
         });
       };
 
-      // Helper to randomly insert pirate exclamations
       const insertPirateExclamations = (text) => {
         const sentences = text.split(/([.!?])/);
         return sentences
