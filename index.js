@@ -17,7 +17,6 @@
           const regex = new RegExp(`\\b(${Object.keys(pirateDictionary).join("|")})\\b`, "gi");
           return text.replace(regex, (match) => {
             const lowerMatch = match.toLowerCase();
-            audio.src = "https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3"; // Added semicolon for good measure
             return pirateDictionary[lowerMatch] || match;
           });
         };
@@ -84,12 +83,27 @@
 
         const playSeaShanty = () => {
           const audio = document.createElement("audio");
-          audio.src = "https://github.com/Prarambha369/pirateDictionary/blob/main/mujak.mp3"
-              audio.loop = true;
+          audio.src = "https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3"; // Added semicolon for good measure
+          audio.loop = true;
           audio.autoplay = true;
+          audio.muted = true;
+
+          audio.play()
+            .then(() => {
+              console.log("Audio playback started (muted)");
+              // Unmute after a short delay
+              setTimeout(() => {
+                audio.muted = false;
+                console.log("Audio unmuted");
+              }, 1000);
+            })
+            .catch((err) => {
+              console.error("Autoplay failed:", err);
+              console.log("User interaction required to play audio due to browser policies");
+            });
 
           const toggleButton = document.createElement("button");
-          toggleButton.textContent = "Toggle Music";
+          toggleButton.textContent = "Unmute Music";
           toggleButton.style.cssText = `
           position: fixed;
           bottom: 10px;
@@ -103,11 +117,20 @@
         `;
           toggleButton.onclick = () => {
             if (audio.paused) {
+              audio.muted = false;
               audio.play().catch((err) => console.error("Audio playback failed:", err));
+              toggleButton.textContent = "Pause Music";
             } else {
               audio.pause();
+              toggleButton.textContent = "Play Music";
             }
           };
+
+          setTimeout(() => {
+            if (!audio.paused) {
+              toggleButton.textContent = "Pause Music";
+            }
+          }, 1100);
 
           document.body.appendChild(toggleButton);
           document.body.appendChild(audio);
