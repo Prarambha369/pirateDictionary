@@ -83,7 +83,7 @@
 
         const playSeaShanty = () => {
           const audio = document.createElement("audio");
-          audio.src =
+          audio.src = "https://github.com/Prarambha369/pirateDictionary/blob/main/mujak.mp3"
               audio.loop = true;
           audio.autoplay = true;
 
