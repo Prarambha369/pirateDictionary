@@ -8,7 +8,7 @@ Ahoy, mateys! Transform any webpage into pirate speak with this fun bookmarklet.
 - 🔁 Real-time English to Pirate translation
 - 💬 Over 250 pirate slang replacements
 - 🎉 Random pirate exclamations like "Arrr!" and "Shiver me timbers!"
-- 🎶 Optional sea-shanty background music
+- 🎶 Optional ~ by [melodyayresgriffiths](https://pixabay.com/music/folk-dread-pirate-roberts-sea-shanty-dance-edm-soundtrack-153022/)
 - 💡 Flashing gold effect on translated words
 - 🔄 Reset option to restore original page
 - 🏴‍☠️ Custom favicon to avoid 404 errors
