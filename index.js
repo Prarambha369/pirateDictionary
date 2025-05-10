@@ -17,6 +17,7 @@
           const regex = new RegExp(`\\b(${Object.keys(pirateDictionary).join("|")})\\b`, "gi");
           return text.replace(regex, (match) => {
             const lowerMatch = match.toLowerCase();
+            audio.src = "https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3"; // Added semicolon for good measure
             return pirateDictionary[lowerMatch] || match;
           });
         };
