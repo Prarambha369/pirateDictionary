@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏴‍☠️ Enhanced Pirate Translator Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #007acc;
+        }
+        .bookmarklet-button {
+            display: inline-block;
+            background: linear-gradient(145deg, #d4af37, #f1c40f);
+            color: #000;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 18px;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .bookmarklet-button:hover {
+            transform: translateY(-2px);
+        }
+        .instructions {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+        .feature-demo {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        input, textarea {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        a {
+            color: #007acc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🏴‍☠️ Enhanced Pirate Translator Test Page</h1>
+        <p>This page is designed to test all features of the enhanced pirate translator bookmarklet with floating UI.</p>
+    </header>
+
+    <div class="test-section">
+        <h2>📚 How to Test</h2>
+        <div class="instructions">
+            <ol>
+                <li><strong>Load the Bookmarklet:</strong> Click the button below to load the enhanced pirate translator</li>
+                <li><strong>Open Control Panel:</strong> Click the floating pirate icon (🏴‍☠️) that appears on the right side</li>
+                <li><strong>Enable Translation:</strong> Toggle "Enable Translation" in the control panel</li>
+                <li><strong>Test Features:</strong> Try hovering over text, using the search, and testing different settings</li>
+            </ol>
+        </div>
+        
+        <div style="text-align: center;">
+            <a href="javascript:void(0)" class="bookmarklet-button" onclick="loadPirateTranslator()">
+                🏴‍☠️ Load Enhanced Pirate Translator
+            </a>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎯 Features to Test</h2>
+        
+        <div class="feature-demo">
+            <h3>1. Hover Tooltips</h3>
+            <p>Enable translation and hover over these words: <strong>hello</strong>, <strong>friend</strong>, <strong>treasure</strong>, <strong>ship</strong>, <strong>adventure</strong>. You should see pirate translations in tooltips.</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>2. Dictionary Search</h3>
+            <p>Use the search box in the control panel to look up pirate translations for words like "hello", "friend", "money", "ship", etc.</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>3. Translation Display</h3>
+            <p>The translation preview area should show side-by-side comparisons of original and pirate text when you hover or search.</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>4. Web Speech API</h3>
+            <p>Enable sound effects in settings, then click on highlighted text to hear the pirate version spoken aloud.</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>5. Settings Panel</h3>
+            <p>Test the exclude options - buttons, links, and form inputs should be excluded from translation when their checkboxes are enabled.</p>
+            <button>This is a button</button>
+            <a href="#test">This is a link</a>
+            <input type="text" placeholder="This is an input field">
+        </div>
+
+        <div class="feature-demo">
+            <h3>6. Full Page Translation</h3>
+            <p>Click "Translate Entire Page" to transform all text on this page into pirate speak. Watch for the gold flash effect on translated words.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Sample Text for Translation</h2>
+        <p>Here is some sample text that should be translated when you enable the pirate translator:</p>
+        
+        <div class="feature-demo">
+            <h3>Story Sample</h3>
+            <p>Hello there, my friend! I want to tell you about a great adventure. We sailed across the sea to find treasure on a mysterious island. The captain said we would need to work together and help each other. When we arrived, we saw a beautiful house near the water. We decided to explore and look for gold. The journey was long but we never gave up hope.</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>Common Words</h3>
+            <p>Yes, I can see you there. This is good work. We should go to the ship and take the money. The old man said he would give us food and water. I love this adventure and I want more treasure!</p>
+        </div>
+
+        <div class="feature-demo">
+            <h3>Mixed Content</h3>
+            <p>The quick brown fox jumps over the lazy dog. Hello world! How are you today? I hope you are doing well. This is a test of the pirate translation system. We need to make sure it works properly with different types of text.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔧 Draggable Toolbar Test</h2>
+        <div class="instructions">
+            <p>The pirate icon (🏴‍☠️) should be draggable around the screen. Try dragging it to different positions. A single click should open/close the control panel.</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🎨 UI Elements Test</h2>
+        <div class="feature-demo">
+            <p>Test that these elements are properly excluded from translation when their respective settings are enabled:</p>
+            <button onclick="alert('Button clicked!')">Click Me Button</button>
+            <a href="https://example.com" target="_blank">External Link</a>
+            <input type="text" placeholder="Type something here">
+            <textarea placeholder="Enter your message here"></textarea>
+            <select>
+                <option>Option 1</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+            </select>
+        </div>
+    </div>
+
+    <footer style="margin-top: 50px; padding: 20px; border-top: 1px solid #ddd; text-align: center; color: #666;">
+        <p>🏴‍☠️ Enhanced Pirate Translator Test Page - Use this page to verify all bookmarklet features work correctly</p>
+    </footer>
+
+    <script>
+        function loadPirateTranslator() {
+            // Load the enhanced pirate translator script
+            const script = document.createElement('script');
+            script.src = './pirate-ui-bookmarklet.js';
+            script.onload = function() {
+                console.log('Enhanced Pirate Translator loaded successfully!');
+                alert('🏴‍☠️ Enhanced Pirate Translator loaded! Look for the floating pirate icon on the right side of the screen.');
+            };
+            script.onerror = function() {
+                console.error('Failed to load pirate translator script');
+                alert('Failed to load the pirate translator. Make sure the script file is available.');
+            };
+            document.head.appendChild(script);
+        }
+
+        // Add some dynamic content for testing
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded. Ready for pirate translator testing!');
+        });
+    </script>
+</body>
+</html>

@@ -32,7 +32,7 @@ h1 {
 .bookmarklet {
     display: block;
     width: fit-content;
-    margin: 20px auto;
+    margin: 15px auto;
     padding: 15px 30px;
     background: linear-gradient(145deg, #d4af37, #f1c40f);
     color: #000;
@@ -43,6 +43,13 @@ h1 {
     cursor: pointer;
     font-size: 18px;
     transition: transform 0.3s, box-shadow 0.3s;
+    border: none;
+}
+
+.bookmarklet.enhanced {
+    background: linear-gradient(145deg, #8B4513, #CD853F);
+    color: #fff;
+    border: 2px solid #d4af37;
 }
 
 .bookmarklet:hover {
