@@ -286,7 +286,8 @@
     excludeElements: ['button', 'input', 'textarea', 'select', 'a'],
     originalTexts: new Map(),
     translatedElements: new Set(),
-    hoveredElement: null
+    hoveredElement: null,
+    soundAudio: null
   };
 
   // Save state to localStorage
@@ -780,7 +781,7 @@
         <!-- Sound Effects -->
         <div class="pirate-section">
           <h3>🔊 Sound Effects</h3>
-          <button class="pirate-button" id="sound-effects-btn">Play Sea Shanty</button>
+          <button class="pirate-button" id="sound-effects-btn">Toggle Sea Shanty</button>
         </div>
         
         <!-- Debug Logs -->
@@ -968,7 +969,7 @@
     
     // Sound Effects button
     document.getElementById('sound-effects-btn').addEventListener('click', () => {
-      logToUI('Sound Effects button clicked, playing sea shanty');
+      logToUI('Sound Effects button clicked, toggling sea shanty');
       playSeaShanty();
     });
   };
@@ -1063,42 +1064,27 @@
   };
 
   const playSeaShanty = () => {
-    logToUI('Playing sea shanty');
-    const audio = document.createElement('audio');
-    audio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
-    audio.loop = true;
-    audio.autoplay = true;
-    audio.muted = true;
-    audio.play().then(() => {
-      setTimeout(() => { audio.muted = false; }, 1000);
-    }).catch((err) => {
-      logToUI('Audio autoplay failed: ' + err);
-    });
-    const toggleButton = document.createElement('button');
-    toggleButton.textContent = 'Unmute Music';
-    toggleButton.style.cssText = `
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      z-index: 10000;
-      background: black;
-      color: white;
-      border: 1px solid white;
-      padding: 5px 10px;
-      cursor: pointer;
-    `;
-    toggleButton.onclick = () => {
-      if (audio.paused) {
-        audio.muted = false;
-        audio.play().catch((err) => logToUI('Audio playback failed: ' + err));
-        toggleButton.textContent = 'Pause Music';
-      } else {
-        audio.pause();
-        toggleButton.textContent = 'Play Music';
-      }
-    };
-    document.body.appendChild(toggleButton);
-    document.body.appendChild(audio);
+    if (!state.soundAudio) {
+      logToUI('Creating sea shanty audio');
+      state.soundAudio = document.createElement('audio');
+      state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
+      state.soundAudio.loop = true;
+      document.body.appendChild(state.soundAudio);
+    }
+    const button = document.getElementById('sound-effects-btn');
+    if (state.soundAudio.paused) {
+      state.soundAudio.play().then(() => {
+        logToUI('Sea shanty playing');
+        if (button) button.textContent = 'Pause Music';
+      }).catch(err => {
+        logToUI('Play failed: ' + err);
+        if (button) button.textContent = 'Play Music (Error)';
+      });
+    } else {
+      state.soundAudio.pause();
+      logToUI('Sea shanty paused');
+      if (button) button.textContent = 'Play Music';
+    }
   };
 
   const walkAndTranslate = () => {
@@ -1221,6 +1207,12 @@
       // Set initial state
       updateExcludeSettings();
       logToUI('Exclude settings updated');
+      
+      // Initialize button text based on state if audio exists
+      if (state.soundAudio && !state.soundAudio.paused) {
+        const button = document.getElementById('sound-effects-btn');
+        if (button) button.textContent = 'Pause Music';
+      }
       
       logToUI('Pirate Translator initialized successfully');
     } catch (error) {
