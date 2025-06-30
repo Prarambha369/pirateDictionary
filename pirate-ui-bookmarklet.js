@@ -777,6 +777,12 @@
           <button class="pirate-button" id="reset-page-btn">🔄 Reset Page</button>
         </div>
         
+        <!-- Sound Effects -->
+        <div class="pirate-section">
+          <h3>🔊 Sound Effects</h3>
+          <button class="pirate-button" id="sound-effects-btn">Play Sea Shanty</button>
+        </div>
+        
         <!-- Debug Logs -->
         <div class="pirate-section">
           <h3>🔍 Debug Logs</h3>
@@ -958,6 +964,12 @@
     // Settings checkboxes
     ['exclude-buttons', 'exclude-links', 'exclude-inputs'].forEach(id => {
       document.getElementById(id).addEventListener('change', updateExcludeSettings);
+    });
+    
+    // Sound Effects button
+    document.getElementById('sound-effects-btn').addEventListener('click', () => {
+      logToUI('Sound Effects button clicked, playing sea shanty');
+      playSeaShanty();
     });
   };
 
