@@ -2,39 +2,49 @@
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](LICENSE)
 
-Ahoy, mateys! Transform any webpage into pirate speak with this fun bookmarklet. Just one click and ye regular website turns into a pirate's paradise! 🏴‍☠️
+Ahoy, mateys! This README details the Pirate Translator Hacklet, a fun tool to turn any webpage into pirate speak.
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Step-by-Step Usage Guide](#step-by-step-usage-guide)
+- [Demo](#demo)
+- [Running Locally](#running-locally)
+- [Browser Compatibility](#browser-compatibility)
+- [Contribution Guidelines](#contribution-guidelines)
+- [License](#license)
+
+## Overview
+This project is a fun, open-source bookmarklet that translates any webpage into pirate speak, adding a humorous twist to online content. It's designed for quick deployment via bookmarks, with no server or dependencies required, making it accessible and entertaining for all users.
 
 ## Features
-- 🔁 Real-time English to Pirate translation
-- 💬 Over 250 pirate slang replacements
-- 🎉 Random pirate exclamations like "Arrr!" and "Shiver me timbers!"
-- 🎶 Optional ~ by [melodyayresgriffiths](https://pixabay.com/music/folk-dread-pirate-roberts-sea-shanty-dance-edm-soundtrack-153022/)
-- 💡 Flashing gold effect on translated words
-- 🔄 Reset option to restore original page
-- 🏴‍☠️ Custom favicon to avoid 404 errors
+- 🔁 Real-time English to Pirate translation with over 250 slang replacements
+- 💬 Random pirate exclamations like 'Arrr!' and 'Shiver me timbers!'
+- 🎶 Optional sea shanty music with mute/unmute controls
+- ✨ Flashing gold effect on translated words for visual feedback
+- 🔄 Easy reset option to revert changes without reloading
+- 🏴‍☠️ Custom favicon to enhance the pirate theme
+- Persistence: Settings like sound and translation options are saved across sessions
 
-## How to Use the Bookmarklet
-1. **Add to Bookmarks**: Drag the "🏴‍☠️ Pirate Mode" button from the website to your bookmarks bar.
+## Step-by-Step Usage Guide
+1. **Add to Bookmarks**: Drag the '🏴‍☠️ Pirate Mode' button from the website to your bookmarks bar.
 2. **Navigate**: Go to any webpage you want to translate.
 3. **Activate**: Click the bookmark to transform the page into pirate speak.
-4. **Reset**: To return to normal, click the "Reset to normal" link in the banner that appears.
+4. **Reset**: To return to normal, click the 'Reset to normal' link in the banner that appears.
 
-### How It Works
-The bookmarklet is completely self-contained and works on any website:
-
-- All pirate translation code is embedded directly in the bookmarklet
-- No external resources are loaded, avoiding CORS (Cross-Origin Resource Sharing) restrictions
-- Contains a simplified pirate dictionary for efficient performance
-- Works on any website on the internet (BBC, YouTube, Google, Wikipedia, etc.)
-- No server or hosting required
+The bookmarklet is self-contained and client-side:
+- It scans the webpage's text nodes and replaces words using an embedded dictionary.
+- Excluded elements (e.g., inputs, buttons) are skipped to avoid breaking functionality.
+- Translation can be toggled on/off with reversibility for a seamless experience.
+- No external servers are used; everything runs in the browser for privacy and speed.
 
 ## Demo
-When activated on a webpage, the Pirate Translator Hacklet:
-1. Adds a pirate banner at the top with a reset option
-2. Transforms all text on the page to pirate speak
-3. Applies a slight tilt to the page for that "sea-legs" feeling
-4. Adds a toggle button for optional sea shanty music
-5. Makes translated words flash gold briefly
+When activated, the Pirate Translator Hacklet:
+1. Adds a pirate banner with a reset option.
+2. Transforms text to pirate speak.
+3. Applies a slight tilt for a 'sea-legs' effect.
+4. Adds a toggle for optional sea shanty music.
+5. Flashes translated words in gold.
 
 ## Running Locally
 1. Clone the repository:
@@ -52,16 +62,15 @@ When activated on a webpage, the Pirate Translator Hacklet:
    ```
 4. Open `http://localhost:8080` in your browser.
 
-
 ## Browser Compatibility
 The Pirate Translator Hacklet works in most modern browsers:
 - Chrome/Chromium-based browsers (Chrome, Edge, Brave, etc.)
 - Firefox
 - Safari
 
-Note: Some features like audio playback might be restricted on certain websites due to browser security policies.
+Note: Some features like audio playback might be restricted due to browser policies.
 
-## Contributing
+## Contribution Guidelines
 Contributions are welcome! Here's how you can help:
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
