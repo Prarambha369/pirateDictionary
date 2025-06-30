@@ -797,23 +797,27 @@
 
   // Modify translateElement to avoid wrapping certain elements and store original text for easy reversal
   const translateElement = (element) => {
-    logToUI('Starting translation on element: ' + element);
-    if (!element || typeof element !== 'object') return;
-    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
-    let node;
-    while (node = walker.nextNode()) {
-      if (!state.excludeElements.some(tag => node.parentElement.tagName.toLowerCase() === tag)) {
-        const originalText = node.nodeValue;
-        const translatedText = addPirateExclamations(translateToPirate(originalText));
-        const span = document.createElement('span');
-        span.className = 'pirate-translated';
-        span.textContent = translatedText;
-        span.dataset.originalText = originalText; // Store original for reversal
-        node.parentNode.replaceChild(span, node);
-        state.translatedElements.add(span); // Track for reversal
+    try {
+      logToUI('Starting translation on element: ' + element);
+      if (!element || typeof element !== 'object') return;
+      const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+      let node;
+      while (node = walker.nextNode()) {
+        if (!state.excludeElements.some(tag => node.parentElement.tagName.toLowerCase() === tag)) {
+          const originalText = node.nodeValue;
+          const translatedText = addPirateExclamations(translateToPirate(originalText));
+          const span = document.createElement('span');
+          span.className = 'pirate-translated';
+          span.textContent = translatedText;
+          span.dataset.originalText = originalText; // Store original for reversal
+          node.parentNode.replaceChild(span, node);
+          state.translatedElements.add(span); // Track for reversal
+        }
       }
+      logToUI('Translation completed for element. Translated elements count: ' + state.translatedElements.size);
+    } catch (error) {
+      logToUI('Error during translation: ' + error.message);
     }
-    logToUI('Translation completed for element. Translated elements count: ' + state.translatedElements.size);
   };
 
   // Improve restoreElement to reverse translations without reloading
