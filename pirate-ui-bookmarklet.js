@@ -329,6 +329,7 @@
 
   // Web Speech API integration
   const speakPirateText = (text) => {
+    console.log('Speaking pirate text:', text);
     if (!state.soundEnabled || !window.speechSynthesis) return;
     
     const utterance = new SpeechSynthesisUtterance(text);
@@ -812,6 +813,7 @@
 
   // Hover tooltip functionality
   const createTooltip = (text, x, y) => {
+    console.log('Hover event triggered on element:', text);
     const existing = document.querySelector('.pirate-tooltip');
     if (existing) existing.remove();
     
@@ -834,6 +836,7 @@
     const searchResults = document.getElementById('search-results');
     
     searchInput.addEventListener('input', (e) => {
+      console.log('Search input event handled with query:', e.target.value);
       const query = e.target.value.toLowerCase().trim();
       searchResults.innerHTML = '';
       
@@ -869,6 +872,7 @@
 
   // Update translation display
   const updateTranslationDisplay = (original, pirate) => {
+    console.log('Updating translation display for text:', original);
     const display = document.getElementById('translation-display');
     const pair = document.createElement('div');
     pair.className = 'translation-pair';
@@ -889,16 +893,18 @@
   const setupEventHandlers = () => {
     // Toggle switches
     document.getElementById('translation-toggle').addEventListener('click', function() {
+      console.log('Enable Translation toggled. New state: ' + (state.translationEnabled ? 'enabled' : 'disabled'));
       state.translationEnabled = !state.translationEnabled;
       this.classList.toggle('active', state.translationEnabled);
       if (state.translationEnabled) {
+        console.log('Calling translateElement on document body');
         translateElement(document.body);
         setupHoverListeners();
       } else {
         restoreElement(document.body);
         removeHoverListeners();
       }
-      saveState(); // Ensure state is saved
+      saveState();
     });
     
     document.getElementById('fullpage-toggle').addEventListener('click', function() {
@@ -932,6 +938,7 @@
 
   // Update exclude settings
   const updateExcludeSettings = () => {
+    console.log('Exclude settings updated. New exclude elements:', state.excludeElements);
     state.excludeElements = [
       ...document.getElementById('exclude-buttons').checked ? ['button'] : [],
       ...document.getElementById('exclude-links').checked ? ['a'] : [],
@@ -952,6 +959,7 @@
   };
 
   const handleMouseOver = (e) => {
+    console.log('Hover event triggered on element:', e.target);
     if (!state.translationEnabled) return;
     
     const element = e.target;
