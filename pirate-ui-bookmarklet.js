@@ -1,4 +1,4 @@
-// 🏴‍☠️ Enhanced Pirate Translator Bookmarklet with Floating UI
+// Enhanced Pirate Translator Bookmarklet with Floating UI
 // Self-contained implementation with advanced features
 
 (() => {
@@ -9,32 +9,268 @@
   }
   window.pirateTranslatorActive = true;
 
-  // Embedded pirate dictionary (self-contained)
+  // Embedded pirate dictionary from pirateDictionary.json for unification
   const pirateDictionary = {
-    "hello": "ahoy", "end": "avast", "friend": "matey", "sir": "matey", "madam": "proud beauty",
-    "stranger": "scurvy dog", "boy": "lad", "girl": "lass", "man": "buccaneer", "woman": "wench",
-    "the": "thar", "my": "me", "we": "wme", "is": "be", "are": "be", "you": "ye", "your": "yer",
-    "me": "I", "to": "ta", "for": "fer", "with": "wit", "and": "n'", "but": "an'", "this": "dis",
-    "that": "dat", "there": "dere", "where": "whar", "when": "whene'er", "why": "fer what",
-    "what": "whut", "who": "who be", "how": "how be", "can": "kin", "could": "couldn'",
-    "will": "willin'", "would": "wouldn'", "should": "shouldn'", "must": "mustn'", "have": "hafta",
-    "has": "hath", "had": "hadn'", "do": "doin'", "does": "doin'", "did": "didn'", "say": "speak",
-    "said": "spoke", "go": "sail", "went": "sail'd", "come": "sail", "came": "sail'd", "see": "spy",
-    "saw": "spied", "look": "spy", "looked": "spied", "hear": "hearken", "heard": "hearkened",
-    "eat": "gobble", "ate": "gobbled", "drink": "swig", "drank": "swigged", "sleep": "slumber",
-    "slept": "slumbered", "talk": "gab", "talked": "gabb'd", "laugh": "chortle", "laughed": "chortled",
-    "cry": "blubber", "cried": "blubbered", "hurt": "blow", "help": "aid", "love": "adore",
-    "hate": "loathe", "like": "fancy", "want": "desire", "need": "require", "give": "bequeath",
-    "take": "seize", "buy": "purchase", "sell": "trade", "find": "discover", "lose": "misplace",
-    "make": "forge", "create": "forge", "build": "construct", "break": "shatter", "fix": "repair",
-    "work": "labor", "play": "frolic", "sing": "chant", "dance": "jig", "run": "scurry",
-    "walk": "swagger", "stop": "belay", "start": "commence", "finish": "complete", "begin": "commence",
-    "money": "doubloons", "gold": "treasure", "house": "quarters", "ship": "vessel", "boat": "craft",
-    "car": "carriage", "food": "grub", "water": "grog", "beer": "ale", "wine": "rum",
-    "good": "fine", "bad": "scurvy", "big": "mighty", "small": "wee", "fast": "swift",
-    "slow": "sluggish", "hot": "blazing", "cold": "frigid", "old": "ancient", "new": "fresh",
-    "yes": "aye", "no": "nay", "maybe": "perhaps", "never": "ne'er", "always": "ever",
-    "here": "hither", "over": "yonder", "under": "beneath", "above": "aloft", "below": "alow"
+    "hello": "ahoy",
+    "end": "avast",
+    "friend": "matey",
+    "sir": "matey",
+    "madam": "proud beauty",
+    "stranger": "scurvy dog",
+    "boy": "lad",
+    "girl": "lass",
+    "man": "buccaneer",
+    "woman": "wench",
+    "the": "thar",
+    "my": "me",
+    "we": "wme",
+    "is": "be",
+    "are": "be",
+    "you": "ye",
+    "your": "yer",
+    "me": "I",
+    "to": "ta",
+    "for": "fer",
+    "with": "wit",
+    "and": "n'",
+    "but": "an'",
+    "this": "dis",
+    "that": "dat",
+    "there": "dere",
+    "where": "whar",
+    "when": "whene'er",
+    "why": "fer what",
+    "what": "whut",
+    "who": "who be",
+    "how": "how be",
+    "can": "kin",
+    "could": "couldn'",
+    "will": "willin'",
+    "would": "wouldn'",
+    "should": "shouldn'",
+    "must": "mustn'",
+    "have": "hafta",
+    "has": "hath",
+    "had": "hadn'",
+    "do": "doin'",
+    "does": "doin'",
+    "did": "didn'",
+    "say": "speak",
+    "said": "spoke",
+    "go": "sail",
+    "went": "sail'd",
+    "come": "sail",
+    "came": "sail'd",
+    "see": "spy",
+    "saw": "spied",
+    "look": "spy",
+    "looked": "spied",
+    "hear": "hearken",
+    "heard": "hearkened",
+    "eat": "gobble",
+    "ate": "gobbled",
+    "drink": "swig",
+    "drank": "swigged",
+    "sleep": "slumber",
+    "slept": "slumbered",
+    "talk": "gab",
+    "talked": "gabb'd",
+    "laugh": "chortle",
+    "laughed": "chortled",
+    "cry": "blubber",
+    "cried": "blubbered",
+    "hurt": "blow",
+    "hurted": "blowed",
+    "help": "aid",
+    "helped": "aided",
+    "love": "adore",
+    "loved": "adored",
+    "hate": "loathe",
+    "hated": "loathed",
+    "like": "fancy",
+    "liked": "fancied",
+    "want": "desire",
+    "wanted": "desired",
+    "need": "require",
+    "needed": "required",
+    "give": "bequeath",
+    "gave": "bequeathed",
+    "take": "seize",
+    "took": "seized",
+    "buy": "purchase",
+    "bought": "purchased",
+    "sell": "trade",
+    "sold": "traded",
+    "find": "discover",
+    "found": "discovered",
+    "lose": "misplace",
+    "lost": "misplaced",
+    "make": "forge",
+    "made": "forged",
+    "create": "forge",
+    "created": "forged",
+    "build": "construct",
+    "built": "constructed",
+    "break": "shatter",
+    "broke": "shattered",
+    "fix": "repair",
+    "fixed": "repaired",
+    "work": "labor",
+    "working": "laborin'",
+    "play": "frolic",
+    "played": "frolicked",
+    "sing": "chant",
+    "sang": "chanted",
+    "dance": "jig",
+    "danced": "jigged",
+    "swim": "float",
+    "swam": "floated",
+    "run": "dash",
+    "ran": "dasht",
+    "walk": "stroll",
+    "walked": "strolled",
+    "drive": "sail",
+    "drove": "sail'd",
+    "ride": "sail",
+    "rode": "sail'd",
+    "fly": "flap",
+    "flew": "flapped",
+    "fire": "blast",
+    "fired": "blasted",
+    "throw": "blow",
+    "threw": "blown",
+    "catch": "take",
+    "caught": "taken",
+    "carry": "bear",
+    "carried": "bore",
+    "open": "unseal",
+    "opened": "unsealed",
+    "close": "seal",
+    "closed": "sealed",
+    "start": "set sail",
+    "started": "set sail'd",
+    "stop": "avast",
+    "stopped": "avasted",
+    "yes": "aye",
+    "no": "nay",
+    "good": "shipshape",
+    "bad": "foul",
+    "great": "grand",
+    "small": "puny",
+    "big": "huge",
+    "fast": "swift",
+    "slow": "sluggish",
+    "happy": "jolly",
+    "sad": "melancholy",
+    "angry": "wrathful",
+    "afraid": "fearful",
+    "brave": "valiant",
+    "coward": "lily-livered",
+    "rich": "wealthy",
+    "poor": "destitute",
+    "strong": "mighty",
+    "weak": "feeble",
+    "alive": "livin'",
+    "dead": "deceased",
+    "life": "existence",
+    "death": "demise",
+    "treasure": "booty",
+    "gold": "doubloons",
+    "silver": "pieces of eight",
+    "money": "coin",
+    "ship": "vessel",
+    "boat": "skiff",
+    "sea": "briny deep",
+    "ocean": "vast ocean",
+    "land": "shore",
+    "island": "isle",
+    "beach": "sandy shore",
+    "water": "sea water",
+    "wind": "breeze",
+    "storm": "tempest",
+    "rain": "showers",
+    "sun": "solar orb",
+    "moon": "lunar orb",
+    "star": "twinkling light",
+    "sky": "heavens",
+    "cloud": "mist",
+    "day": "daylight",
+    "night": "darkness",
+    "morning": "dawn",
+    "evening": "dusk",
+    "time": "hour",
+    "week": "seven-day period",
+    "hour": "sixty minutes",
+    "minute": "sixty seconds",
+    "second": "instant",
+    "now": "this moment",
+    "later": "after a spell",
+    "soon": "in a jiffy",
+    "always": "forevermore",
+    "never": "not ever",
+    "sometimes": "at times",
+    "often": "frequently",
+    "rarely": "seldom",
+    "again": "once more",
+    "once": "one time",
+    "twice": "two times",
+    "thrice": "three times",
+    "many": "a lot",
+    "few": "a handful",
+    "all": "every last one",
+    "none": "not a one",
+    "some": "a few",
+    "more": "extra",
+    "less": "fewer",
+    "enough": "sufficient",
+    "too much": "excessive",
+    "too little": "insufficient",
+    "zero": "naught",
+    "one": "single",
+    "two": "double",
+    "three": "triple",
+    "four": "quadruple",
+    "five": "quintuple",
+    "six": "sextuple",
+    "seven": "septuple",
+    "eight": "octuple",
+    "nine": "nonuple",
+    "ten": "decuple",
+    "hundred": "century",
+    "thousand": "millennium",
+    "million": "mega",
+    "billion": "giga",
+    "trillion": "tera",
+    "number": "digit",
+    "count": "tally",
+    "add": "sum",
+    "subtract": "deduct",
+    "multiply": "times",
+    "divide": "split",
+    "equal": "same",
+    "not equal": "different",
+    "greater than": "more than",
+    "less than": "fewer than",
+    "percent": "percentage",
+    "amount": "quantity",
+    "total": "sum total",
+    "part": "portion",
+    "whole": "entirety",
+    "half": "moiety",
+    "quarter": "fourth",
+    "third": "triad",
+    "first": "foremost",
+    "last": "final",
+    "next": "following",
+    "previous": "prior",
+    "before": "afore",
+    "after": "behind",
+    "above": "over",
+    "below": "under",
+    "inside": "within",
+    "outside": "without",
+    "year": "yoar",
+    "month": "moor"
   };
 
   const pirateExclamations = [
@@ -53,6 +289,21 @@
     translatedElements: new Set(),
     hoveredElement: null
   };
+
+  // Save state to localStorage
+  const saveState = () => {
+    localStorage.setItem('pirateTranslatorState', JSON.stringify(state));
+  };
+
+  // Load saved state from localStorage
+  const loadState = () => {
+    const savedState = localStorage.getItem('pirateTranslatorState');
+    if (savedState) {
+      Object.assign(state, JSON.parse(savedState));
+    }
+  };
+
+  loadState();
 
   // Translation functions
   const translateToPirate = (text) => {
@@ -526,56 +777,34 @@
     panel.classList.toggle('open');
   };
 
-  // Translation engine
+  // Modify translateElement to avoid wrapping certain elements and store original text for easy reversal
   const translateElement = (element) => {
-    if (!element || state.translatedElements.has(element)) return;
-    
-    const tagName = element.tagName.toLowerCase();
-    if (state.excludeElements.includes(tagName)) return;
-    
-    if (element.nodeType === Node.TEXT_NODE) {
-      const parent = element.parentNode;
-      if (parent && !state.excludeElements.includes(parent.tagName.toLowerCase())) {
-        const originalText = element.textContent;
-        if (originalText.trim()) {
-          state.originalTexts.set(element, originalText);
-          const translatedText = addPirateExclamations(translateToPirate(originalText));
-          element.textContent = translatedText;
-          state.translatedElements.add(element);
-          
-          // Add flash effect
-          if (parent) {
-            parent.classList.add('pirate-flash');
-            setTimeout(() => parent.classList.remove('pirate-flash'), 500);
-          }
-        }
+    if (!element || typeof element !== 'object') return;
+    const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    while (node = walker.nextNode()) {
+      if (!state.excludeElements.some(tag => node.parentElement.tagName.toLowerCase() === tag)) {
+        const originalText = node.nodeValue;
+        const translatedText = addPirateExclamations(translateToPirate(originalText));
+        const span = document.createElement('span');
+        span.className = 'pirate-translated';
+        span.textContent = translatedText;
+        span.dataset.originalText = originalText; // Store original for reversal
+        node.parentNode.replaceChild(span, node);
+        state.translatedElements.add(span); // Track for reversal
       }
-    } else if (element.childNodes) {
-      Array.from(element.childNodes).forEach(child => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          translateElement(child);
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          translateElement(child);
-        }
-      });
     }
   };
 
-  // Restore original text
+  // Improve restoreElement to reverse translations without reloading
   const restoreElement = (element) => {
-    if (state.originalTexts.has(element)) {
-      element.textContent = state.originalTexts.get(element);
-      state.originalTexts.delete(element);
-      state.translatedElements.delete(element);
-    }
-    
-    if (element.childNodes) {
-      Array.from(element.childNodes).forEach(child => {
-        if (state.translatedElements.has(child)) {
-          restoreElement(child);
-        }
-      });
-    }
+    state.translatedElements.forEach(translatedSpan => {
+      if (translatedSpan.parentNode) {
+        const originalTextNode = document.createTextNode(translatedSpan.dataset.originalText);
+        translatedSpan.parentNode.replaceChild(originalTextNode, translatedSpan);
+      }
+    });
+    state.translatedElements.clear(); // Clear after restoration
   };
 
   // Hover tooltip functionality
@@ -659,22 +888,26 @@
     document.getElementById('translation-toggle').addEventListener('click', function() {
       state.translationEnabled = !state.translationEnabled;
       this.classList.toggle('active', state.translationEnabled);
-      
       if (state.translationEnabled) {
+        translateElement(document.body);
         setupHoverListeners();
       } else {
+        restoreElement(document.body);
         removeHoverListeners();
       }
+      saveState(); // Ensure state is saved
     });
     
     document.getElementById('fullpage-toggle').addEventListener('click', function() {
       state.fullPageTranslation = !state.fullPageTranslation;
       this.classList.toggle('active', state.fullPageTranslation);
+      saveState();
     });
     
     document.getElementById('sound-toggle').addEventListener('click', function() {
       state.soundEnabled = !state.soundEnabled;
       this.classList.toggle('active', state.soundEnabled);
+      saveState();
     });
     
     // Buttons
@@ -696,12 +929,12 @@
 
   // Update exclude settings
   const updateExcludeSettings = () => {
-    state.excludeElements = [];
-    if (document.getElementById('exclude-buttons').checked) state.excludeElements.push('button');
-    if (document.getElementById('exclude-links').checked) state.excludeElements.push('a');
-    if (document.getElementById('exclude-inputs').checked) {
-      state.excludeElements.push('input', 'textarea', 'select');
-    }
+    state.excludeElements = [
+      ...document.getElementById('exclude-buttons').checked ? ['button'] : [],
+      ...document.getElementById('exclude-links').checked ? ['a'] : [],
+      ...document.getElementById('exclude-inputs').checked ? ['input', 'textarea', 'select'] : []
+    ].flat();
+    saveState();
   };
 
   // Hover listeners for tooltips
@@ -749,6 +982,20 @@
 
   // Initialize the pirate translator
   const init = () => {
+    // Load saved state from localStorage
+    const savedState = localStorage.getItem('pirateTranslatorState');
+    if (savedState) {
+      Object.assign(state, JSON.parse(savedState));
+    }
+    
+    // Update UI elements to reflect loaded state
+    document.getElementById('translation-toggle').classList.toggle('active', state.translationEnabled);
+    document.getElementById('fullpage-toggle').classList.toggle('active', state.fullPageTranslation);
+    document.getElementById('sound-toggle').classList.toggle('active', state.soundEnabled);
+    document.getElementById('exclude-buttons').checked = state.excludeElements.includes('button');
+    document.getElementById('exclude-links').checked = state.excludeElements.includes('a');
+    document.getElementById('exclude-inputs').checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
+    
     // Inject styles
     injectStyles();
     
