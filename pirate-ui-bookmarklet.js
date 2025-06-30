@@ -772,7 +772,11 @@
   // Toggle panel visibility
   const togglePanel = () => {
     const panel = document.querySelector('.pirate-ui-container');
-    panel.classList.toggle('open');
+    if (panel) {
+      panel.classList.toggle('open');
+    } else {
+      console.error('Pirate UI container not found. Cannot toggle panel.');
+    }
   };
 
   // Modify translateElement to avoid wrapping certain elements and store original text for easy reversal
