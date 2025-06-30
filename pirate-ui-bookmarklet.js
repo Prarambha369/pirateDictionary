@@ -969,7 +969,7 @@
     
     // Sound Effects button
     document.getElementById('sound-effects-btn').addEventListener('click', () => {
-      logToUI('Sound Effects button clicked, toggling sea shanty');
+      logToUI('Sound Effects button clicked. Current audio paused state: ' + state.soundAudio?.paused);
       playSeaShanty();
     });
   };
@@ -1064,20 +1064,24 @@
   };
 
   const playSeaShanty = () => {
+    const button = document.getElementById('sound-effects-btn');
     if (!state.soundAudio) {
       logToUI('Creating sea shanty audio');
       state.soundAudio = document.createElement('audio');
       state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
       state.soundAudio.loop = true;
+      state.soundAudio.addEventListener('error', (e) => {
+        logToUI('Audio error occurred: ' + e.message + '. Check URL or network issues.');
+      });
       document.body.appendChild(state.soundAudio);
     }
-    const button = document.getElementById('sound-effects-btn');
     if (state.soundAudio.paused) {
+      logToUI('Attempting to play sea shanty. ReadyState: ' + state.soundAudio.readyState);
       state.soundAudio.play().then(() => {
-        logToUI('Sea shanty playing');
+        logToUI('Sea shanty playing successfully');
         if (button) button.textContent = 'Pause Music';
       }).catch(err => {
-        logToUI('Play failed: ' + err);
+        logToUI('Play failed: ' + err + '. Ensure user interaction and check autoplay policies.');
         if (button) button.textContent = 'Play Music (Error)';
       });
     } else {
@@ -1185,6 +1189,13 @@
         excludeInputs.checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
       } else {
         logToUI('Element not found: exclude-inputs');
+      }
+      
+      // Set initial button text and log
+      const soundButton = document.getElementById('sound-effects-btn');
+      if (soundButton) {
+        soundButton.textContent = 'Play Music'; // Set initial text
+        logToUI('Sound Effects button initialized with text: Play Music');
       }
       
       // Inject styles
