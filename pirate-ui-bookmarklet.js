@@ -282,10 +282,12 @@
   let state = {
     translationEnabled: false,
     fullPageTranslation: false,
+    soundEnabled: false,
     excludeElements: ['button', 'input', 'textarea', 'select', 'a'],
     originalTexts: new Map(),
     translatedElements: new Set(),
-    hoveredElement: null
+    hoveredElement: null,
+    soundAudio: null
   };
 
   // Save state to localStorage
@@ -711,6 +713,10 @@
             <span>Full Page Mode</span>
             <div class="pirate-switch" id="fullpage-toggle"></div>
           </div>
+          <div class="pirate-toggle">
+            <span>Sound Effects</span>
+            <div class="pirate-switch" id="sound-toggle"></div>
+          </div>
           <button class="pirate-button" id="translate-page-btn">🏴‍☠️ Translate Entire Page</button>
         </div>
         
@@ -909,6 +915,13 @@
       saveState();
     });
     
+    document.getElementById('sound-toggle').addEventListener('click', function() {
+      state.soundEnabled = !state.soundEnabled;
+      this.classList.toggle('active', state.soundEnabled);
+      playSeaShanty();
+      saveState();
+    });
+    
     // Buttons
     document.getElementById('translate-page-btn').addEventListener('click', () => {
       logToUI('Translate Entire Page button clicked. Enabling translation and translating page.');
@@ -1054,6 +1067,28 @@
     location.reload(); // Reloading for now to reset everything
   };
 
+  // Re-add playSeaShanty function for sound toggle
+  const playSeaShanty = () => {
+    const toggle = document.getElementById('sound-toggle');
+    if (!state.soundAudio) {
+      state.soundAudio = document.createElement('audio');
+      state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
+      state.soundAudio.loop = true;
+      state.soundAudio.addEventListener('error', (e) => logToUI('Audio error: ' + e.message));
+      document.body.appendChild(state.soundAudio);
+    }
+    if (state.soundAudio.paused) {
+      state.soundAudio.play().then(() => {
+        logToUI('Music playing');
+        if (toggle) toggle.classList.add('active');
+      }).catch(err => logToUI('Play failed: ' + err));
+    } else {
+      state.soundAudio.pause();
+      logToUI('Music paused');
+      if (toggle) toggle.classList.remove('active');
+    }
+  };
+
   // Initialize the pirate translator
   const init = () => {
     logToUI('🏴‍☠️ Enhanced Pirate Translator initializing...');
@@ -1070,35 +1105,17 @@
       
       // Update UI elements to reflect loaded state
       const translationToggle = document.getElementById('translation-toggle');
-      if (translationToggle) {
-        translationToggle.classList.toggle('active', state.translationEnabled);
-      } else {
-        logToUI('Element not found: translation-toggle');
-      }
+      if (translationToggle) translationToggle.classList.toggle('active', state.translationEnabled);
       const fullpageToggle = document.getElementById('fullpage-toggle');
-      if (fullpageToggle) {
-        fullpageToggle.classList.toggle('active', state.fullPageTranslation);
-      } else {
-        logToUI('Element not found: fullpage-toggle');
-      }
+      if (fullpageToggle) fullpageToggle.classList.toggle('active', state.fullPageTranslation);
+      const soundToggle = document.getElementById('sound-toggle');
+      if (soundToggle) soundToggle.classList.toggle('active', state.soundEnabled);
       const excludeButtons = document.getElementById('exclude-buttons');
-      if (excludeButtons) {
-        excludeButtons.checked = state.excludeElements.includes('button');
-      } else {
-        logToUI('Element not found: exclude-buttons');
-      }
+      if (excludeButtons) excludeButtons.checked = state.excludeElements.includes('button');
       const excludeLinks = document.getElementById('exclude-links');
-      if (excludeLinks) {
-        excludeLinks.checked = state.excludeElements.includes('a');
-      } else {
-        logToUI('Element not found: exclude-links');
-      }
+      if (excludeLinks) excludeLinks.checked = state.excludeElements.includes('a');
       const excludeInputs = document.getElementById('exclude-inputs');
-      if (excludeInputs) {
-        excludeInputs.checked = state.excludeElements.includes('input');
-      } else {
-        logToUI('Element not found: exclude-inputs');
-      }
+      if (excludeInputs) excludeInputs.checked = state.excludeElements.includes('input');
       
       // Inject styles
       injectStyles();
