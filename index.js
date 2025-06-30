@@ -7,7 +7,6 @@
         return response.json();
       })
       .then((pirateDictionary) => {
-        console.log("Pirate dictionary loaded successfully!");
 
         const pirateExclamations = [
           "Arrr!", "Shiver me timbers!", "Blimey!", "Yo-ho-ho!", "Avast ye!"
@@ -90,16 +89,13 @@
 
           audio.play()
             .then(() => {
-              console.log("Audio playback started (muted)");
               // Unmute after a short delay
               setTimeout(() => {
                 audio.muted = false;
-                console.log("Audio unmuted");
               }, 1000);
             })
             .catch((err) => {
               console.error("Autoplay failed:", err);
-              console.log("User interaction required to play audio due to browser policies");
             });
 
           const toggleButton = document.createElement("button");

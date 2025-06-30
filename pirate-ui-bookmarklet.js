@@ -4,8 +4,7 @@
 (() => {
   // Prevent multiple instances
   if (window.pirateTranslatorActive) {
-    console.log('Pirate Translator already active!');
-    return;
+    return; // Log removed for production
   }
   window.pirateTranslatorActive = true;
 
@@ -1009,9 +1008,6 @@
     
     // Set initial state
     updateExcludeSettings();
-    
-    console.log('🏴‍☠️ Pirate Translator with Floating UI loaded successfully!');
-    console.log('Click the floating pirate icon to open the control panel');
   };
 
   // Start the application
@@ -1034,8 +1030,6 @@
     
     // Reset state
     window.pirateTranslatorActive = false;
-    
-    console.log('🏴‍☠️ Pirate Translator removed');
   };
 
 })();
