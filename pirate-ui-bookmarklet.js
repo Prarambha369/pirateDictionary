@@ -930,6 +930,11 @@
     document.getElementById('fullpage-toggle').addEventListener('click', function() {
       state.fullPageTranslation = !state.fullPageTranslation;
       this.classList.toggle('active', state.fullPageTranslation);
+      if (state.fullPageTranslation) {
+        applyClassicMode();
+      } else {
+        removeClassicMode();
+      }
       saveState();
     });
     
@@ -1009,6 +1014,127 @@
     e.target.classList.remove('pirate-highlight');
     const tooltip = document.querySelector('.pirate-tooltip');
     if (tooltip) tooltip.remove();
+  };
+
+  // Add functions from Classic Pirate Mode
+  const injectBanner = () => {
+    logToUI('Injecting banner');
+    const banner = document.createElement('div');
+    banner.className = 'pirate-banner';
+    banner.textContent = '🏴‍☠️ Pirate Mode Activated!';
+    banner.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: black;
+      color: white;
+      font-family: 'Pirata One', cursive, serif;
+      font-size: 24px;
+      text-align: center;
+      padding: 10px;
+      z-index: 10000;
+    `;
+    const resetLink = document.createElement('a');
+    resetLink.textContent = 'Reset to normal';
+    resetLink.href = '#';
+    resetLink.style.cssText = 'color: red; margin-left: 20px;';
+    resetLink.onclick = () => location.reload();
+    banner.appendChild(resetLink);
+    document.body.appendChild(banner);
+  };
+
+  const applyPirateStyling = () => {
+    logToUI('Applying pirate styling');
+    document.body.style.transform = 'rotate(-1.5deg)';
+    document.body.style.fontFamily = '"Pirata One", cursive, serif';
+  };
+
+  const playSeaShanty = () => {
+    logToUI('Playing sea shanty');
+    const audio = document.createElement('audio');
+    audio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
+    audio.loop = true;
+    audio.autoplay = true;
+    audio.muted = true;
+    audio.play().then(() => {
+      setTimeout(() => { audio.muted = false; }, 1000);
+    }).catch((err) => {
+      logToUI('Audio autoplay failed: ' + err);
+    });
+    const toggleButton = document.createElement('button');
+    toggleButton.textContent = 'Unmute Music';
+    toggleButton.style.cssText = `
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 10000;
+      background: black;
+      color: white;
+      border: 1px solid white;
+      padding: 5px 10px;
+      cursor: pointer;
+    `;
+    toggleButton.onclick = () => {
+      if (audio.paused) {
+        audio.muted = false;
+        audio.play().catch((err) => logToUI('Audio playback failed: ' + err));
+        toggleButton.textContent = 'Pause Music';
+      } else {
+        audio.pause();
+        toggleButton.textContent = 'Play Music';
+      }
+    };
+    document.body.appendChild(toggleButton);
+    document.body.appendChild(audio);
+  };
+
+  const walkAndTranslate = () => {
+    logToUI('Starting Classic translation walk');
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let node;
+    while (node = walker.nextNode()) {
+      if (!state.excludeElements.some(tag => node.parentElement.tagName.toLowerCase() === tag)) {
+        const originalText = node.nodeValue;
+        const translatedText = addPirateExclamations(translateToPirate(originalText)); // Use existing functions
+        if (originalText !== translatedText) {
+          const span = document.createElement('span');
+          span.className = 'pirate-translated';
+          span.textContent = translatedText;
+          span.style.transition = 'background-color 0.5s';
+          span.style.backgroundColor = 'gold';
+          setTimeout(() => { span.style.backgroundColor = ''; }, 500);
+          node.parentNode.replaceChild(span, node);
+        }
+      }
+    }
+    logToUI('Classic translation completed');
+  };
+
+  const applyClassicMode = () => {
+    logToUI('Applying Classic Pirate Mode');
+    injectBanner();
+    applyPirateStyling();
+    playSeaShanty();
+    walkAndTranslate();
+  };
+
+  const removeClassicMode = () => {
+    logToUI('Removing Classic Pirate Mode');
+    // Remove banner if it exists
+    const banner = document.querySelector('.pirate-banner');
+    if (banner) banner.remove();
+    // Reset styling
+    document.body.style.transform = '';
+    document.body.style.fontFamily = '';
+    // Stop and remove audio
+    const audioElements = document.querySelectorAll('audio[src*="mujak.mp3"]');
+    audioElements.forEach(audio => audio.pause()); // Pause and remove music toggle button if exists
+    const musicButton = document.querySelector('button[onclick*="audio.play"]'); // Approximate selector, may need adjustment
+    if (musicButton) musicButton.remove();
+    // Restore text nodes - this is tricky, may require tracking originals or reloading
+    // For simplicity, reload page or use existing restore logic
+    location.reload(); // Reloading for now to reset everything
   };
 
   // Initialize the pirate translator
