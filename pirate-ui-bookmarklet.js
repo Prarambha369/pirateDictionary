@@ -282,12 +282,10 @@
   let state = {
     translationEnabled: false,
     fullPageTranslation: false,
-    soundEnabled: false,
     excludeElements: ['button', 'input', 'textarea', 'select', 'a'],
     originalTexts: new Map(),
     translatedElements: new Set(),
-    hoveredElement: null,
-    soundAudio: null
+    hoveredElement: null
   };
 
   // Save state to localStorage
@@ -326,27 +324,6 @@
         return sentence;
       })
       .join("");
-  };
-
-  // Web Speech API integration
-  const speakPirateText = (text) => {
-    logToUI('Speaking pirate text: ' + text);
-    if (!state.soundEnabled || !window.speechSynthesis) return;
-    
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.8;
-    utterance.pitch = 0.7;
-    utterance.volume = 0.8;
-    
-    // Try to find a voice that sounds more pirate-like
-    const voices = speechSynthesis.getVoices();
-    const preferredVoice = voices.find(voice => 
-      voice.name.includes('English') && voice.name.includes('Male')
-    ) || voices[0];
-    
-    if (preferredVoice) utterance.voice = preferredVoice;
-    
-    speechSynthesis.speak(utterance);
   };
 
   // Add logToUI function to handle UI logging
@@ -734,10 +711,6 @@
             <span>Full Page Mode</span>
             <div class="pirate-switch" id="fullpage-toggle"></div>
           </div>
-          <div class="pirate-toggle">
-            <span>Sound Effects</span>
-            <div class="pirate-switch" id="sound-toggle"></div>
-          </div>
           <button class="pirate-button" id="translate-page-btn">🏴‍☠️ Translate Entire Page</button>
         </div>
         
@@ -776,12 +749,6 @@
             </div>
           </div>
           <button class="pirate-button" id="reset-page-btn">🔄 Reset Page</button>
-        </div>
-        
-        <!-- Sound Effects -->
-        <div class="pirate-section">
-          <h3>🔊 Sound Effects</h3>
-          <button class="pirate-button" id="sound-effects-btn">Toggle Sea Shanty</button>
         </div>
         
         <!-- Debug Logs -->
@@ -886,9 +853,6 @@
         `;
         
         result.addEventListener('click', () => {
-          if (state.soundEnabled) {
-            speakPirateText(pirate);
-          }
           updateTranslationDisplay(english, pirate);
         });
         
@@ -945,12 +909,6 @@
       saveState();
     });
     
-    document.getElementById('sound-toggle').addEventListener('click', function() {
-      state.soundEnabled = !state.soundEnabled;
-      this.classList.toggle('active', state.soundEnabled);
-      saveState();
-    });
-    
     // Buttons
     document.getElementById('translate-page-btn').addEventListener('click', () => {
       logToUI('Translate Entire Page button clicked. Enabling translation and translating page.');
@@ -965,12 +923,6 @@
     // Settings checkboxes
     ['exclude-buttons', 'exclude-links', 'exclude-inputs'].forEach(id => {
       document.getElementById(id).addEventListener('change', updateExcludeSettings);
-    });
-    
-    // Sound Effects button
-    document.getElementById('sound-effects-btn').addEventListener('click', () => {
-      logToUI('Sound Effects button clicked. Current audio paused state: ' + state.soundAudio?.paused);
-      playSeaShanty();
     });
   };
 
@@ -1012,9 +964,6 @@
         
         // Click to speak
         const clickHandler = () => {
-          if (state.soundEnabled) {
-            speakPirateText(pirateText);
-          }
           updateTranslationDisplay(text, pirateText);
           element.removeEventListener('click', clickHandler);
         };
@@ -1063,34 +1012,6 @@
     document.body.style.fontFamily = '"Pirata One", cursive, serif';
   };
 
-  const playSeaShanty = () => {
-    const button = document.getElementById('sound-effects-btn');
-    if (!state.soundAudio) {
-      logToUI('Creating sea shanty audio');
-      state.soundAudio = document.createElement('audio');
-      state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
-      state.soundAudio.loop = true;
-      state.soundAudio.addEventListener('error', (e) => {
-        logToUI('Audio error occurred: ' + e.message + '. Check URL or network issues.');
-      });
-      document.body.appendChild(state.soundAudio);
-    }
-    if (state.soundAudio.paused) {
-      logToUI('Attempting to play sea shanty. ReadyState: ' + state.soundAudio.readyState);
-      state.soundAudio.play().then(() => {
-        logToUI('Sea shanty playing successfully');
-        if (button) button.textContent = 'Pause Music';
-      }).catch(err => {
-        logToUI('Play failed: ' + err + '. Ensure user interaction and check autoplay policies.');
-        if (button) button.textContent = 'Play Music (Error)';
-      });
-    } else {
-      state.soundAudio.pause();
-      logToUI('Sea shanty paused');
-      if (button) button.textContent = 'Play Music';
-    }
-  };
-
   const walkAndTranslate = () => {
     logToUI('Starting Classic translation walk');
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
@@ -1117,7 +1038,6 @@
     logToUI('Applying Classic Pirate Mode');
     injectBanner();
     applyPirateStyling();
-    playSeaShanty();
     walkAndTranslate();
   };
 
@@ -1129,11 +1049,6 @@
     // Reset styling
     document.body.style.transform = '';
     document.body.style.fontFamily = '';
-    // Stop and remove audio
-    const audioElements = document.querySelectorAll('audio[src*="mujak.mp3"]');
-    audioElements.forEach(audio => audio.pause()); // Pause and remove music toggle button if exists
-    const musicButton = document.querySelector('button[onclick*="audio.play"]'); // Approximate selector, may need adjustment
-    if (musicButton) musicButton.remove();
     // Restore text nodes - this is tricky, may require tracking originals or reloading
     // For simplicity, reload page or use existing restore logic
     location.reload(); // Reloading for now to reset everything
@@ -1166,12 +1081,6 @@
       } else {
         logToUI('Element not found: fullpage-toggle');
       }
-      const soundToggle = document.getElementById('sound-toggle');
-      if (soundToggle) {
-        soundToggle.classList.toggle('active', state.soundEnabled);
-      } else {
-        logToUI('Element not found: sound-toggle');
-      }
       const excludeButtons = document.getElementById('exclude-buttons');
       if (excludeButtons) {
         excludeButtons.checked = state.excludeElements.includes('button');
@@ -1186,16 +1095,9 @@
       }
       const excludeInputs = document.getElementById('exclude-inputs');
       if (excludeInputs) {
-        excludeInputs.checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
+        excludeInputs.checked = state.excludeElements.includes('input');
       } else {
         logToUI('Element not found: exclude-inputs');
-      }
-      
-      // Set initial button text and log
-      const soundButton = document.getElementById('sound-effects-btn');
-      if (soundButton) {
-        soundButton.textContent = 'Play Music'; // Set initial text
-        logToUI('Sound Effects button initialized with text: Play Music');
       }
       
       // Inject styles
@@ -1206,7 +1108,7 @@
       const toolbar = createToolbar();
       logToUI('Toolbar created');
       const panel = createFloatingPanel();
-      panel.classList.add('open');  // Ensure UI is open by default
+      panel.classList.add('open');
       logToUI('Panel created');
       
       // Setup functionality
@@ -1218,12 +1120,6 @@
       // Set initial state
       updateExcludeSettings();
       logToUI('Exclude settings updated');
-      
-      // Initialize button text based on state if audio exists
-      if (state.soundAudio && !state.soundAudio.paused) {
-        const button = document.getElementById('sound-effects-btn');
-        if (button) button.textContent = 'Pause Music';
-      }
       
       logToUI('Pirate Translator initialized successfully');
     } catch (error) {
