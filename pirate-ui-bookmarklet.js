@@ -640,6 +640,7 @@
 
   // Create draggable toolbar
   const createToolbar = () => {
+    console.log('Creating toolbar...');
     const toolbar = document.createElement('div');
     toolbar.className = 'pirate-toolbar';
     toolbar.innerHTML = '🏴‍☠️';
@@ -700,6 +701,7 @@
 
   // Create floating UI panel
   const createFloatingPanel = () => {
+    console.log('Creating floating panel...');
     const container = document.createElement('div');
     container.className = 'pirate-ui-container';
     container.innerHTML = `
@@ -981,7 +983,7 @@
 
   // Initialize the pirate translator
   const init = () => {
-    console.log('Pirate Translator init started');
+    console.log('🏴‍☠️ Enhanced Pirate Translator initializing...');
     try {
       // Load saved state from localStorage
       const savedState = localStorage.getItem('pirateTranslatorState');
