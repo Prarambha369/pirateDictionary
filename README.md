@@ -64,7 +64,7 @@ When activated, the Pirate Translator Hacklet:
 ## Running Locally
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Prarambha369/pirate-translator.git
+   git clone https://github.com/Prarambha369/pirateDictionary.git
    cd pirate-translator
    ```
 2. Install dependencies:
