@@ -7,6 +7,7 @@ Ahoy, mateys! This README details the Pirate Translator Hacklet, a fun tool to t
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
+- [Comparison of Pirate Modes](#comparison-of-pirate-modes)
 - [Step-by-Step Usage Guide](#step-by-step-usage-guide)
 - [Demo](#demo)
 - [Running Locally](#running-locally)
@@ -20,11 +21,25 @@ This project is a fun, open-source bookmarklet that translates any webpage into 
 ## Features
 - 🔁 Real-time English to Pirate translation with over 250 slang replacements
 - 💬 Random pirate exclamations like 'Arrr!' and 'Shiver me timbers!'
-- 🎶 Optional sea shanty music with mute/unmute controls
+- 🎶 Optional sea shanty music with mute/unmute controls and browser-compatible handling
 - ✨ Flashing gold effect on translated words for visual feedback
-- 🔄 Easy reset option to revert changes without reloading
-- 🏴‍☠️ Custom favicon to enhance the pirate theme
-- Persistence: Settings like sound and translation options are saved across sessions
+- 🔄 Easy reset and toggle functionality for seamless switching without reloads
+- 🏴‍☠️ Custom favicon and pirate-themed styling to immerse users
+- Persistence: Saves user settings like sound and translation preferences using localStorage for a better experience
+- Accessibility: Improved with ARIA labels and roles for better screen reader support
+
+## Comparison of Pirate Modes
+
+| Aspect | Classic Pirate Mode | Enhanced Pirate UI                                                                                                                                                               |
+|--------|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Description** | ✓ Basic bookmarklet for simple text translation to pirate speak. | ✓ Advanced bookmarklet with a floating control panel for interactive features.                                                                                                   |
+| **Key Features** | ✓ - Real-time translation<br>- Banner with reset<br>- Music toggle | ✓ - All Classic features plus search, tooltips, settings persistence, and speech synthesis                                                                                       |
+| **How It Works** | ✓ Fetches and runs a lightweight JS script that translates text nodes, adds a banner, and handles music playback directly in the browser. | ✓ Fetches and runs a more complex JS script that includes a floating UI, allowing users to search translations, adjust settings, and use voice synthesis for spoken pirate text. |
+| **Intended Use** | ✓ Ideal for quick, fun translations on any webpage with minimal overhead, suitable for users wanting simplicity. | ✓ Designed for users seeking a richer experience with additional tools, like customizing translations or using voice features, making it more engaging for prolonged use.        |
+| **Performance** | ✓ Lightweight and fast, with low resource usage. | ✓ Slightly heavier due to UI elements, but still efficient and client-side.                                                                                                      |
+| **Accessibility** | ✓ Basic support with ARIA labels for core elements. | ✓ Enhanced accessibility, including full ARIA roles, settings for customization, and better support for screen readers.                                                          |
+| **Speech Synthesis** | ✗ Not available; text is only visually translated. | ✓ Included, with options to hear translated text spoken in pirate voice using Web Speech API. **(Soon)**                                                                         |
+| **Gold Flash Effect** | ✓ Words flash gold briefly after translation. | ✓ Inherited from Classic, with potential for more customization in the UI.                                                                                                       |
 
 ## Step-by-Step Usage Guide
 1. **Add to Bookmarks**: Drag the '🏴‍☠️ Pirate Mode' button from the website to your bookmarks bar.
