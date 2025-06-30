@@ -981,33 +981,81 @@
 
   // Initialize the pirate translator
   const init = () => {
-    // Load saved state from localStorage
-    const savedState = localStorage.getItem('pirateTranslatorState');
-    if (savedState) {
-      Object.assign(state, JSON.parse(savedState));
+    console.log('Pirate Translator init started');
+    try {
+      // Load saved state from localStorage
+      const savedState = localStorage.getItem('pirateTranslatorState');
+      if (savedState) {
+        const parsedState = JSON.parse(savedState);
+        Object.assign(state, parsedState);
+        console.log('State loaded successfully:', parsedState);
+      } else {
+        console.log('No saved state found');
+      }
+      
+      // Update UI elements to reflect loaded state
+      const translationToggle = document.getElementById('translation-toggle');
+      if (translationToggle) {
+        translationToggle.classList.toggle('active', state.translationEnabled);
+      } else {
+        console.error('Element not found: translation-toggle');
+      }
+      const fullpageToggle = document.getElementById('fullpage-toggle');
+      if (fullpageToggle) {
+        fullpageToggle.classList.toggle('active', state.fullPageTranslation);
+      } else {
+        console.error('Element not found: fullpage-toggle');
+      }
+      const soundToggle = document.getElementById('sound-toggle');
+      if (soundToggle) {
+        soundToggle.classList.toggle('active', state.soundEnabled);
+      } else {
+        console.error('Element not found: sound-toggle');
+      }
+      const excludeButtons = document.getElementById('exclude-buttons');
+      if (excludeButtons) {
+        excludeButtons.checked = state.excludeElements.includes('button');
+      } else {
+        console.error('Element not found: exclude-buttons');
+      }
+      const excludeLinks = document.getElementById('exclude-links');
+      if (excludeLinks) {
+        excludeLinks.checked = state.excludeElements.includes('a');
+      } else {
+        console.error('Element not found: exclude-links');
+      }
+      const excludeInputs = document.getElementById('exclude-inputs');
+      if (excludeInputs) {
+        excludeInputs.checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
+      } else {
+        console.error('Element not found: exclude-inputs');
+      }
+      
+      // Inject styles
+      injectStyles();
+      console.log('Styles injected');
+      
+      // Create UI elements
+      const toolbar = createToolbar();
+      console.log('Toolbar created');
+      const panel = createFloatingPanel();
+      panel.classList.add('open');  // Ensure UI is open by default
+      console.log('Panel created');
+      
+      // Setup functionality
+      setupSearch();
+      console.log('Search setup complete');
+      setupEventHandlers();
+      console.log('Event handlers setup complete');
+      
+      // Set initial state
+      updateExcludeSettings();
+      console.log('Exclude settings updated');
+      
+      console.log('Pirate Translator initialized successfully');
+    } catch (error) {
+      console.error('Error in init function:', error);
     }
-    
-    // Update UI elements to reflect loaded state
-    document.getElementById('translation-toggle').classList.toggle('active', state.translationEnabled);
-    document.getElementById('fullpage-toggle').classList.toggle('active', state.fullPageTranslation);
-    document.getElementById('sound-toggle').classList.toggle('active', state.soundEnabled);
-    document.getElementById('exclude-buttons').checked = state.excludeElements.includes('button');
-    document.getElementById('exclude-links').checked = state.excludeElements.includes('a');
-    document.getElementById('exclude-inputs').checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
-    
-    // Inject styles
-    injectStyles();
-    
-    // Create UI elements
-    const toolbar = createToolbar();
-    const panel = createFloatingPanel();
-    
-    // Setup functionality
-    setupSearch();
-    setupEventHandlers();
-    
-    // Set initial state
-    updateExcludeSettings();
   };
 
   // Start the application
