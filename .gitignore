@@ -9,4 +9,5 @@
 /.idea
 /.idea/vcs.xml
 .idea
-vcs.xml
+vcs.xml!/extract_words.py
+!/extract_words.py
