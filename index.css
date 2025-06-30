@@ -122,3 +122,13 @@ footer {
     padding: 20px;
     border-top: 1px solid #eee;
 }
+
+.comparison-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+.comparison-table th, .comparison-table td {
+    border: 1px solid #d4af37; /* Golden border to match theme */
+    padding: 8px 12px;
+    text-align: left;
+}
