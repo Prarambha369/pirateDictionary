@@ -1,4 +1,3 @@
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 800px;
@@ -128,6 +127,17 @@ footer {
     width: 100%;
 }
 .comparison-table th, .comparison-table td {
+    border: 1px solid #d4af37;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.install-table {
+    width: 80%;
+    margin: 20px auto; /* Center the table */
+    border-collapse: collapse;
+}
+.install-table th, .install-table td {
     border: 1px solid #d4af37; /* Golden border to match theme */
     padding: 8px 12px;
     text-align: left;
