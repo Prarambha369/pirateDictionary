@@ -329,7 +329,7 @@
 
   // Web Speech API integration
   const speakPirateText = (text) => {
-    console.log('Speaking pirate text:', text);
+    logToUI('Speaking pirate text: ' + text);
     if (!state.soundEnabled || !window.speechSynthesis) return;
     
     const utterance = new SpeechSynthesisUtterance(text);
@@ -346,6 +346,16 @@
     if (preferredVoice) utterance.voice = preferredVoice;
     
     speechSynthesis.speak(utterance);
+  };
+
+  // Add logToUI function to handle UI logging
+  const logToUI = (message) => {
+    const logElement = document.getElementById('debug-logs');
+    if (logElement) {
+      const p = document.createElement('p');
+      p.textContent = message;
+      logElement.appendChild(p);
+    }
   };
 
   // CSS Styles for the floating UI
@@ -641,7 +651,7 @@
 
   // Create draggable toolbar
   const createToolbar = () => {
-    console.log('Creating toolbar...');
+    logToUI('Creating toolbar...');
     const toolbar = document.createElement('div');
     toolbar.className = 'pirate-toolbar';
     toolbar.innerHTML = '🏴‍☠️';
@@ -702,7 +712,7 @@
 
   // Create floating UI panel
   const createFloatingPanel = () => {
-    console.log('Creating floating panel...');
+    logToUI('Creating floating panel...');
     const container = document.createElement('div');
     container.className = 'pirate-ui-container';
     container.innerHTML = `
@@ -766,6 +776,12 @@
           </div>
           <button class="pirate-button" id="reset-page-btn">🔄 Reset Page</button>
         </div>
+        
+        <!-- Debug Logs -->
+        <div class="pirate-section">
+          <h3>🔍 Debug Logs</h3>
+          <div id="debug-logs" style="max-height: 200px; overflow-y: auto; background: #333; color: #d4af37; padding: 10px;"></div>
+        </div>
       </div>
     `;
     
@@ -781,7 +797,7 @@
 
   // Modify translateElement to avoid wrapping certain elements and store original text for easy reversal
   const translateElement = (element) => {
-    console.log('Starting translation on element:', element);
+    logToUI('Starting translation on element: ' + element);
     if (!element || typeof element !== 'object') return;
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
     let node;
@@ -797,7 +813,7 @@
         state.translatedElements.add(span); // Track for reversal
       }
     }
-    console.log('Translation completed for element. Translated elements count:', state.translatedElements.size);
+    logToUI('Translation completed for element. Translated elements count: ' + state.translatedElements.size);
   };
 
   // Improve restoreElement to reverse translations without reloading
@@ -813,7 +829,7 @@
 
   // Hover tooltip functionality
   const createTooltip = (text, x, y) => {
-    console.log('Hover event triggered on element:', text);
+    logToUI('Hover event triggered on element: ' + text);
     const existing = document.querySelector('.pirate-tooltip');
     if (existing) existing.remove();
     
@@ -836,7 +852,7 @@
     const searchResults = document.getElementById('search-results');
     
     searchInput.addEventListener('input', (e) => {
-      console.log('Search input event handled with query:', e.target.value);
+      logToUI('Search input event handled with query: ' + e.target.value);
       const query = e.target.value.toLowerCase().trim();
       searchResults.innerHTML = '';
       
@@ -872,7 +888,7 @@
 
   // Update translation display
   const updateTranslationDisplay = (original, pirate) => {
-    console.log('Updating translation display for text:', original);
+    logToUI('Updating translation display for text: ' + original);
     const display = document.getElementById('translation-display');
     const pair = document.createElement('div');
     pair.className = 'translation-pair';
@@ -893,11 +909,11 @@
   const setupEventHandlers = () => {
     // Toggle switches
     document.getElementById('translation-toggle').addEventListener('click', function() {
-      console.log('Enable Translation toggled. New state: ' + (state.translationEnabled ? 'enabled' : 'disabled'));
+      logToUI('Enable Translation toggled. New state: ' + (state.translationEnabled ? 'enabled' : 'disabled'));
       state.translationEnabled = !state.translationEnabled;
       this.classList.toggle('active', state.translationEnabled);
       if (state.translationEnabled) {
-        console.log('Calling translateElement on document body');
+        logToUI('Calling translateElement on document body');
         translateElement(document.body);
         setupHoverListeners();
       } else {
@@ -921,7 +937,7 @@
     
     // Buttons
     document.getElementById('translate-page-btn').addEventListener('click', () => {
-      console.log('Translate Entire Page button clicked. Enabling translation and translating page.');
+      logToUI('Translate Entire Page button clicked. Enabling translation and translating page.');
       state.translationEnabled = true;  // Ensure translation is enabled
       translateElement(document.body);
     });
@@ -938,7 +954,7 @@
 
   // Update exclude settings
   const updateExcludeSettings = () => {
-    console.log('Exclude settings updated. New exclude elements:', state.excludeElements);
+    logToUI('Exclude settings updated. New exclude elements: ' + JSON.stringify(state.excludeElements));
     state.excludeElements = [
       ...document.getElementById('exclude-buttons').checked ? ['button'] : [],
       ...document.getElementById('exclude-links').checked ? ['a'] : [],
@@ -959,7 +975,7 @@
   };
 
   const handleMouseOver = (e) => {
-    console.log('Hover event triggered on element:', e.target);
+    logToUI('Hover event triggered on element: ' + e.target);
     if (!state.translationEnabled) return;
     
     const element = e.target;
@@ -993,16 +1009,16 @@
 
   // Initialize the pirate translator
   const init = () => {
-    console.log('🏴‍☠️ Enhanced Pirate Translator initializing...');
+    logToUI('🏴‍☠️ Enhanced Pirate Translator initializing...');
     try {
       // Load saved state from localStorage
       const savedState = localStorage.getItem('pirateTranslatorState');
       if (savedState) {
         const parsedState = JSON.parse(savedState);
         Object.assign(state, parsedState);
-        console.log('State loaded successfully:', parsedState);
+        logToUI('State loaded successfully: ' + JSON.stringify(parsedState));
       } else {
-        console.log('No saved state found');
+        logToUI('No saved state found');
       }
       
       // Update UI elements to reflect loaded state
@@ -1010,63 +1026,63 @@
       if (translationToggle) {
         translationToggle.classList.toggle('active', state.translationEnabled);
       } else {
-        console.error('Element not found: translation-toggle');
+        logToUI('Element not found: translation-toggle');
       }
       const fullpageToggle = document.getElementById('fullpage-toggle');
       if (fullpageToggle) {
         fullpageToggle.classList.toggle('active', state.fullPageTranslation);
       } else {
-        console.error('Element not found: fullpage-toggle');
+        logToUI('Element not found: fullpage-toggle');
       }
       const soundToggle = document.getElementById('sound-toggle');
       if (soundToggle) {
         soundToggle.classList.toggle('active', state.soundEnabled);
       } else {
-        console.error('Element not found: sound-toggle');
+        logToUI('Element not found: sound-toggle');
       }
       const excludeButtons = document.getElementById('exclude-buttons');
       if (excludeButtons) {
         excludeButtons.checked = state.excludeElements.includes('button');
       } else {
-        console.error('Element not found: exclude-buttons');
+        logToUI('Element not found: exclude-buttons');
       }
       const excludeLinks = document.getElementById('exclude-links');
       if (excludeLinks) {
         excludeLinks.checked = state.excludeElements.includes('a');
       } else {
-        console.error('Element not found: exclude-links');
+        logToUI('Element not found: exclude-links');
       }
       const excludeInputs = document.getElementById('exclude-inputs');
       if (excludeInputs) {
         excludeInputs.checked = state.excludeElements.some(el => ['input', 'textarea', 'select'].includes(el));
       } else {
-        console.error('Element not found: exclude-inputs');
+        logToUI('Element not found: exclude-inputs');
       }
       
       // Inject styles
       injectStyles();
-      console.log('Styles injected');
+      logToUI('Styles injected');
       
       // Create UI elements
       const toolbar = createToolbar();
-      console.log('Toolbar created');
+      logToUI('Toolbar created');
       const panel = createFloatingPanel();
       panel.classList.add('open');  // Ensure UI is open by default
-      console.log('Panel created');
+      logToUI('Panel created');
       
       // Setup functionality
       setupSearch();
-      console.log('Search setup complete');
+      logToUI('Search setup complete');
       setupEventHandlers();
-      console.log('Event handlers setup complete');
+      logToUI('Event handlers setup complete');
       
       // Set initial state
       updateExcludeSettings();
-      console.log('Exclude settings updated');
+      logToUI('Exclude settings updated');
       
-      console.log('Pirate Translator initialized successfully');
+      logToUI('Pirate Translator initialized successfully');
     } catch (error) {
-      console.error('Error in init function:', error);
+      logToUI('Error in init function: ' + error);
     }
   };
 
