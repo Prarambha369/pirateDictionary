@@ -1076,7 +1076,7 @@
     const toggle = document.getElementById('sound-toggle');
     if (!state.soundAudio) {
       state.soundAudio = document.createElement('audio');
-      state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3';
+      state.soundAudio.src = 'https://raw.githubusercontent.com/Prarambha369/pirateDictionary/main/mujak.mp3'; // Reverted to original mujak.mp3
       state.soundAudio.loop = true;
       state.soundAudio.addEventListener('error', (e) => logToUI('Audio error: ' + e.message));
       document.body.appendChild(state.soundAudio);
