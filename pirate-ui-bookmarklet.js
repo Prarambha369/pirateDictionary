@@ -780,6 +780,7 @@
 
   // Modify translateElement to avoid wrapping certain elements and store original text for easy reversal
   const translateElement = (element) => {
+    console.log('Starting translation on element:', element);
     if (!element || typeof element !== 'object') return;
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
     let node;
@@ -795,6 +796,7 @@
         state.translatedElements.add(span); // Track for reversal
       }
     }
+    console.log('Translation completed for element. Translated elements count:', state.translatedElements.size);
   };
 
   // Improve restoreElement to reverse translations without reloading
@@ -913,9 +915,9 @@
     
     // Buttons
     document.getElementById('translate-page-btn').addEventListener('click', () => {
-      if (state.translationEnabled) {
-        translateElement(document.body);
-      }
+      console.log('Translate Entire Page button clicked. Enabling translation and translating page.');
+      state.translationEnabled = true;  // Ensure translation is enabled
+      translateElement(document.body);
     });
     
     document.getElementById('reset-page-btn').addEventListener('click', () => {
